@@ -74,9 +74,10 @@ const styles = StyleSheet.create({
     container: { 
       backgroundColor: 'white',
       flex: 1, 
-      justifyContent: 'center', 
+      justifyContent: 'flex-end', 
       alignItems: 'center',
-      padding: 20 
+      padding: 50, 
+      width: '100%'
     },
     text: { 
       fontSize: 16, 
