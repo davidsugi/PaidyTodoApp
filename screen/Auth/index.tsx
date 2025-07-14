@@ -7,17 +7,13 @@ interface AuthScreenProps {
 }
 
 export default function AuthScreen({ onLogin }: AuthScreenProps) {
-    const { checkAuthAvailability, promptAuth, openSettings } = useBiometricAuth();
-    const [isAvailable, setIsAvailable] = useState(false);
+    const { checkAuthAvailability, promptAuth, openSettings, authAvailable } = useBiometricAuth();
     const [error, setError] = useState<string | null>(null);
-    
-    useEffect(() => {
-        checkAuthAvailability().then(setIsAvailable);
-    }, [checkAuthAvailability]);
+
 
     const handleLogin = async () => {
         try {
-            if(isAvailable) {
+            if(authAvailable) {
                 const result = await promptAuth();
                 if(result.success) {
                     setError(null);
@@ -34,7 +30,7 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
         handleLogin();
     }
     
-    if (!isAvailable) {
+    if (!authAvailable) {
         return (
             <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={styles.container}>

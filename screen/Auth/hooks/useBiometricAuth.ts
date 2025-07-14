@@ -1,13 +1,36 @@
 import * as LocalAuthentication from 'expo-local-authentication';
-import { useCallback } from 'react';
-import { Linking, Platform } from 'react-native';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { AppState, AppStateStatus, Linking, NativeModules, Platform } from 'react-native';
+
+const { IntentLauncher } = NativeModules;
 
 export const useBiometricAuth = () => {
+  const appState = useRef<AppStateStatus>(AppState.currentState);
+  const [authAvailable, setAuthAvailable] = useState(false);  
+  
   const checkAuthAvailability = useCallback(async () => {
     const compatible = await LocalAuthentication.hasHardwareAsync();
     const enrolled = await LocalAuthentication.isEnrolledAsync();
-    return compatible && enrolled;
+    setAuthAvailable(compatible && enrolled);
   }, []);
+
+  useEffect(() => {
+    checkAuthAvailability();
+
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        checkAuthAvailability();
+      }
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, [checkAuthAvailability]);
 
   const promptAuth = useCallback(async () => {
     return await LocalAuthentication.authenticateAsync({
@@ -19,13 +42,14 @@ export const useBiometricAuth = () => {
 
   const openSettings = useCallback(() => {
     if (Platform.OS === 'android') {
-      Linking.openSettings();
+      IntentLauncher.openFingerprintSettings();
     } else {
       Linking.openURL('app-settings:');
     }
   }, []);
 
   return {
+    authAvailable,
     checkAuthAvailability,
     promptAuth,
     openSettings,
