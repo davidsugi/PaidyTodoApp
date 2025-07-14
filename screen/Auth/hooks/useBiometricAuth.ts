@@ -35,7 +35,7 @@ export const useBiometricAuth = () => {
     };
   }, [checkAuthAvailability]);
 
-  const promptAuth = useCallback(async () => {
+  const promptAuth = async () => {
     setIsLoading(true);
     const result = await LocalAuthentication.authenticateAsync({
       promptMessage: 'Authenticate',
@@ -44,9 +44,9 @@ export const useBiometricAuth = () => {
     });
     setIsLoading(false);
     return result;
-  }, []);
+  };
 
-  const openSettings = useCallback(() => {
+  const openSettings = () => {
     if(isLoading) return;
     setIsLoading(true);
     if (Platform.OS === 'android') {
@@ -55,7 +55,7 @@ export const useBiometricAuth = () => {
       Linking.openURL('app-settings:');
     }
     setIsLoading(false);
-  }, []);
+  };
 
   return {
     authAvailable,

@@ -14,7 +14,7 @@ export default function TodoScreen() {
     <>
       <KeyboardAvoidingView 
         style={styles.container} 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={'padding'}
       >
         <Text style={styles.header}>TODO:</Text>
         <TodoList />
