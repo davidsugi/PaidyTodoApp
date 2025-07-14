@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Text, View } from 'react-native'
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useBiometricAuth } from './hooks/useBiometricAuth'
 
 interface AuthScreenProps {
@@ -33,30 +33,56 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
         setError(null);
         handleLogin();
     }
-
+    
     if (!isAvailable) {
         return (
-            <View>
-                <Text>Please enable biometric authentication in your device settings</Text>
-                <Button title="Open Settings" onPress={openSettings} />
-            </View>
+            <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.container}>
+                    <Text style={styles.text}>Please enable biometric authentication in your device settings</Text>
+                    <Button title="Open Settings" onPress={openSettings} />
+                </View>
+            </SafeAreaView>
         )
     }
 
     if(error) {
         return (
-            <View>
-                <Text>Error Occured</Text>
-                <Text>{error}</Text>
+            <View style={styles.container}>
+                <Text style={styles.text}>Error Occured</Text>
+                <Text style={styles.errorText}>{error}</Text>
                 <Button title="Retry" onPress={handleRetry} />
             </View>
         )
     }
 
   return (
-    <View>
-        <Text>AuthScreen</Text>
+    <View style={styles.container}>
+        <Text style={styles.text}>AuthScreen</Text>
         <Button title="Login to the system" onPress={handleLogin} />
     </View>
   )
 }
+
+
+
+
+const styles = StyleSheet.create({
+    container: { 
+      backgroundColor: 'white',
+      flex: 1, 
+      justifyContent: 'center', 
+      alignItems: 'center',
+      padding: 20 
+    },
+    text: { 
+      fontSize: 16, 
+      marginBottom: 20,
+      textAlign: 'center' 
+    },
+    errorText: { 
+      fontSize: 16, 
+      marginBottom: 20,
+      textAlign: 'center',
+      color: 'red' 
+    }
+  });
