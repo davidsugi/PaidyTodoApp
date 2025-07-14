@@ -52,7 +52,7 @@ export const useBiometricAuth = () => {
     if (Platform.OS === 'android') {
       IntentLauncher.openFingerprintSettings();
     } else {
-      Linking.openSettings();
+      Linking.openURL('app-settings:');
     }
     setIsLoading(false);
   }, []);
