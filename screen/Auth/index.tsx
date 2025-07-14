@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Button, SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import { useBiometricAuth } from './hooks/useBiometricAuth'
 
 interface AuthScreenProps {
@@ -7,7 +7,7 @@ interface AuthScreenProps {
 }
 
 export default function AuthScreen({ onLogin }: AuthScreenProps) {
-    const { checkAuthAvailability, promptAuth, openSettings, authAvailable } = useBiometricAuth();
+    const { promptAuth, openSettings, authAvailable, isLoading } = useBiometricAuth();
     const [error, setError] = useState<string | null>(null);
 
 
@@ -30,12 +30,20 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
         handleLogin();
     }
     
+    if(isLoading) {
+        return (
+            <View style={styles.container}>
+                <ActivityIndicator size="large" color="#0000ff" />
+            </View>
+        )
+    }
+
     if (!authAvailable) {
         return (
             <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <View style={styles.container}>
-                    <Text style={styles.text}>Please enable biometric authentication in your device settings</Text>
-                    <Button title="Open Settings" onPress={openSettings} />
+                    <Text style={styles.text}>Set Authentication to Proceed</Text>
+                    <Button title="Go to Settings" onPress={openSettings} />
                 </View>
             </SafeAreaView>
         )
@@ -53,8 +61,8 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.text}>AuthScreen</Text>
-        <Button title="Login to the system" onPress={handleLogin} />
+        <Text style={styles.text}>Please Login Before Proceeding</Text>
+        <Button title="Login" onPress={handleLogin} />
     </View>
   )
 }
