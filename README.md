@@ -1,3 +1,30 @@
+# Paidy Todo APP React Native
+
+React Native application for a simple Todo App using Bare React native integrated with expo-local-authentication
+
+## Demo
+
+| Platform | Demo Video | Additional Info |
+|----------|------------|----------------|
+| Android(Android 14) | [Watch Demo](./git_assets/ANDROID.mp4) | - |
+| iOS (iOS 17) | [Watch Demo](./git_assets/IOS%20Todo.mp4) | [Configuration Demo](./git_assets/IOS%20Config.mp4) |
+
+## Tech Stacks and External Library
+
+| Tech Stack | Reasoning |
+|----------|------------|
+| React Native | Required by the test |
+| expo-local-authentication | Required by the test |
+| zustand | split the logic and UI for todo feature, clean and easy to setup |
+| @react-native-async-storage/async-storage | to presist Todo data |
+
+## Contact
+
+- LinkedIn: [David Sugiarto](https://www.linkedin.com/in/david-sugi/)
+- Website: [David Sugiarto's Web Portfolio](https://davsugi.vercel.app/)
+
+---
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
